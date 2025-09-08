@@ -29,11 +29,11 @@ def FactorPerformance(NAV):
     returns_df = normalized_df.pct_change().dropna()
 
     results_df = pd.concat([annual_growth_rate(filtered_df)
-                             , max_drawdown(returns_df)
                              , annual_volatility(returns_df)
                              , annual_Sharpe_ratio(filtered_df, returns_df)
-                             , annual_sortino(returns_df)
+                             , max_drawdown(returns_df)
                              , calmar_ratio(filtered_df, returns_df)
+                             , sortino_ratio(returns_df)
                              , skewness(returns_df)
                              , kurtosis(returns_df)])
 
@@ -119,7 +119,7 @@ def calmar_ratio(filtered_df, returns_df):
 
 
 #%% Sortino ratio
-def annual_sortino(returns_df):
+def sortino_ratio(returns_df):
     # Set 0 to be the risk-free annual rate of return
 
     returns_df1 = returns_df.copy()
@@ -154,5 +154,6 @@ def skewness(returns_df):
 def kurtosis(returns_df):
     kurto_values = stats.kurtosis(returns_df)
     result_df = pd.DataFrame([kurto_values], columns=returns_df.columns, index=['kurtosis'])
+
 
     return result_df
